@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" width="400" height="160">
+  <defs>
+    <style>
+      .wordmark { font-family: 'Montserrat', 'Arial Black', sans-serif; font-weight: 700; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="160" fill="#0F0F1A" rx="12"/>
+
+  <!--
+    Concept 3: The M IS the Shield
+    The shield boundary IS formed by the M geometry.
+    Shield points:
+      Top-left peak:  (42, 36)   <- left arm of M
+      Top-right peak: (102, 36)  <- right arm of M
+      Center dip:     (72, 72)   <- valley of M
+      Bottom-left:    (32, 116)  <- base of M
+      Bottom apex:    (72, 130)  <- shield bottom point
+      Bottom-right:   (112, 116) <- base of M
+    We enclose the entire shape as a filled polygon with purple stroke,
+    fill a subtle dark purple, then draw the M strokes on top.
+  -->
+  <g id="combined-mark">
+    <!-- Shield/M enclosure fill -->
+    <polygon
+      points="42,36 102,36 112,116 72,134 32,116"
+      fill="#7C3AED"
+      fill-opacity="0.08"
+      stroke="#7C3AED"
+      stroke-width="2.5"
+      stroke-opacity="0.5"
+      stroke-linejoin="round"
+    />
+
+    <!-- The M strokes (bold, on top of fill) -->
+    <polyline
+      points="32,116 42,36 72,72 102,36 112,116"
+      fill="none"
+      stroke="#7C3AED"
+      stroke-width="8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <!-- Bottom shield apex line from base corners -->
+    <polyline
+      points="32,116 72,134 112,116"
+      fill="none"
+      stroke="#7C3AED"
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <!-- Shield top cap line -->
+    <line x1="42" y1="36" x2="102" y2="36"
+      stroke="#7C3AED" stroke-width="3" stroke-linecap="round" stroke-opacity="0.6"/>
+
+    <!-- Node dots at structural points -->
+    <circle cx="42"  cy="36"  r="5.5" fill="#0F0F1A" stroke="#7C3AED" stroke-width="3"/>
+    <circle cx="102" cy="36"  r="5.5" fill="#0F0F1A" stroke="#7C3AED" stroke-width="3"/>
+    <circle cx="72"  cy="72"  r="4"   fill="#7C3AED"/>
+    <circle cx="32"  cy="116" r="4.5" fill="#7C3AED"/>
+    <circle cx="112" cy="116" r="4.5" fill="#7C3AED"/>
+    <circle cx="72"  cy="134" r="5"   fill="#7C3AED"/>
+
+    <!-- Network connector lines from peaks -->
+    <line x1="42" y1="36" x2="72" y2="20"
+      stroke="#7C3AED" stroke-width="1.5" stroke-opacity="0.35" stroke-linecap="round"/>
+    <line x1="102" y1="36" x2="72" y2="20"
+      stroke="#7C3AED" stroke-width="1.5" stroke-opacity="0.35" stroke-linecap="round"/>
+    <circle cx="72" cy="20" r="3.5" fill="#7C3AED" fill-opacity="0.5"/>
+  </g>
+
+  <!-- WORDMARK -->
+  <text
+    x="148" y="84"
+    class="wordmark"
+    font-size="32"
+    fill="#FFFFFF"
+    letter-spacing="1"
+    dominant-baseline="middle"
+  >Meshark<tspan fill="#7C3AED">tech</tspan></text>
+
+  <text
+    x="149" y="114"
+    font-family="'Montserrat', 'Arial', sans-serif"
+    font-size="10"
+    fill="#6B7280"
+    letter-spacing="3"
+  >SECURE · BUILD · ARCHITECT</text>
+</svg>

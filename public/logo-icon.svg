@@ -1,0 +1,60 @@
+<!-- Mesharktech Favicon / App Icon — Standalone Symbol Only, 64x64 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Background -->
+  <rect width="64" height="64" fill="#0F0F1A" rx="14"/>
+
+  <!--
+    Concept 3 Combined M+Shield scaled to 64x64
+    Original coords were in a ~144x144 bounding box (32-112 x, 20-134 y)
+    Scale factor ~0.44, offset to center in 64x64
+    Scaled points (roughly):
+      Left base:    (8,  54)
+      Left peak:    (13, 14)
+      Center dip:   (32, 30)
+      Right peak:   (51, 14)
+      Right base:   (56, 54)
+      Bottom apex:  (32, 60)
+  -->
+  <g>
+    <!-- Subtle shield fill -->
+    <polygon
+      points="13,14 51,14 56,54 32,60 8,54"
+      fill="#7C3AED"
+      fill-opacity="0.12"
+      stroke="#7C3AED"
+      stroke-width="1.5"
+      stroke-opacity="0.4"
+      stroke-linejoin="round"
+    />
+
+    <!-- M strokes -->
+    <polyline
+      points="8,54 13,14 32,30 51,14 56,54"
+      fill="none"
+      stroke="#7C3AED"
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <!-- Shield bottom apex -->
+    <polyline
+      points="8,54 32,60 56,54"
+      fill="none"
+      stroke="#7C3AED"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <!-- Top cap line -->
+    <line x1="13" y1="14" x2="51" y2="14"
+      stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-opacity="0.5"/>
+
+    <!-- Key nodes -->
+    <circle cx="13" cy="14" r="3" fill="#0F0F1A" stroke="#7C3AED" stroke-width="2"/>
+    <circle cx="51" cy="14" r="3" fill="#0F0F1A" stroke="#7C3AED" stroke-width="2"/>
+    <circle cx="32" cy="30" r="2.5" fill="#7C3AED"/>
+    <circle cx="32" cy="60" r="3"   fill="#7C3AED"/>
+  </g>
+</svg>
