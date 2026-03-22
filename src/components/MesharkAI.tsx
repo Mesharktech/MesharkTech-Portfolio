@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, X, Send, Bot, RotateCcw, ChevronDown } from "lucide-react";
+import { MessageSquare, X, Send, Bot, RotateCcw, ChevronDown, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Message {
@@ -51,8 +51,53 @@ export function MesharkAI() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [showBubble, setShowBubble] = useState(false);
+  const [bubbleText, setBubbleText] = useState("Let's build something.");
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Periodic Attention Bubble
+  useEffect(() => {
+    if (isOpen) {
+      setShowBubble(false);
+      return;
+    }
+
+    const phrases = [
+      "Yo", 
+      "Sup", 
+      "Hey", 
+      "Let's talk"
+    ];
+    let phraseIndex = 0;
+    let interval: NodeJS.Timeout;
+    let popupTimeout: NodeJS.Timeout;
+
+    const triggerBubble = () => {
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      setBubbleText(phrases[phraseIndex]);
+      setShowBubble(true);
+      
+      popupTimeout = setTimeout(() => {
+        setShowBubble(false);
+      }, 5000);
+    };
+
+    // First bubble after 4 seconds
+    const initialTimeout = setTimeout(() => {
+      setShowBubble(true);
+      popupTimeout = setTimeout(() => setShowBubble(false), 5000);
+      
+      // Then every 12 seconds
+      interval = setInterval(triggerBubble, 12000);
+    }, 4000);
+
+    return () => {
+      clearTimeout(initialTimeout);
+      clearTimeout(popupTimeout);
+      clearInterval(interval);
+    };
+  }, [isOpen]);
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
@@ -109,6 +154,23 @@ export function MesharkAI() {
 
   return (
     <>
+      {/* Attention Bubble */}
+      <AnimatePresence>
+        {!isOpen && showBubble && (
+          <motion.div
+            initial={{ opacity: 0, x: 20, y: 5 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            className="fixed bottom-[36px] right-[90px] z-40 cursor-pointer"
+            onClick={() => { setIsOpen(true); setIsMinimized(false); setShowBubble(false); }}
+          >
+            <p className="font-display font-extrabold text-2xl tracking-wide flaming-text-cyan whitespace-nowrap">
+              {bubbleText}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* FAB Button */}
       <motion.button
         onClick={() => { setIsOpen(true); setIsMinimized(false); }}

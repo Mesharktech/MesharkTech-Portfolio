@@ -206,6 +206,35 @@
     box-shadow: 0 0 40px rgba(0, 230, 164, 0.35);
   }
 
+  .flaming-text-cyan {
+    color: #ffffff;
+    text-shadow:
+      0 -1px 3px #fff,
+      0 -2px 8px #80ffff,
+      0 -4px 15px #00e6a4,
+      0 -8px 25px #0077ff,
+      0 -12px 35px #0077ff;
+    animation: flicker-cyan 0.12s infinite alternate;
+  }
+
+  @keyframes flicker-cyan {
+    0%, 100% {
+      text-shadow:
+        0 -1px 3px #fff,
+        0 -2px 8px #80ffff,
+        0 -4px 15px #00e6a4,
+        0 -8px 25px #0077ff;
+    }
+    50% {
+      text-shadow:
+        0 -1px 3px #fff,
+        0 -3px 10px #80ffff,
+        0 -5px 18px #00e6a4,
+        0 -10px 30px #0077ff,
+        0 -15px 40px #005bb5;
+    }
+  }
+
   .dot-grid {
     background-image: radial-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px);
     background-size: 32px 32px;
