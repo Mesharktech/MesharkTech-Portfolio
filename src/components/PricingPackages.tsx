@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, Shield, Rocket, Target, Code, Award, Zap, Briefcase } from "lucide-react";
+import { Check, X, Shield, Rocket, Target, Code, Award, Zap, Briefcase } from "lucide-react";
 import Link from "next/link";
 
 export function PricingPackages() {
   const tiers = [
     {
       name: "Starter Package",
-      price: "KSh. 17,999",
+      price: "Get a Quote",
       description: "Perfect for personal brands and startup landing pages.",
       isPopular: false,
       features: [
@@ -16,46 +16,52 @@ export function PricingPackages() {
         "Responsive Mobile-First Design",
         "Basic SEO Optimization",
         "Free Domain & Hosting (1 Year)",
-        "Source Code Provided",
-        "Social Media Integration",
         "24/7 Priority Support",
       ],
+      lacks: [
+        "AI Chatbot Integration",
+        "Admin Dashboard (CMS)",
+        "Payment Gateway Integration",
+        "Enterprise Security Updates",
+      ]
     },
     {
       name: "Standard Package",
-      price: "KSh. 31,499",
+      price: "Get a Quote",
       description: "The sweet spot for growing businesses and agencies.",
       isPopular: true,
       features: [
         "Custom Website (Up to 10 Pages)",
         "Responsive Mobile-First Design",
-        "Full SEO & Analytics Optimization",
-        "Admin Dashboard (Headless CMS)",
-        "Free Domain & Hosting (1 Year)",
-        "Search Engine Indexing",
+        "Full SEO & Analytics",
+        "Admin Dashboard (CMS)",
+        "AI Chatbot Integration",
         "Free SSL Certificate",
-        "Free Logo Identity Design",
         "Enterprise Security Updates",
         "24/7 Priority Support",
       ],
+      lacks: [
+        "Custom Web Application / SaaS",
+        "Payment Gateway Integration",
+        "Dedicated VIP Support SLA",
+      ]
     },
     {
       name: "Premium Package",
-      price: "KSh. 53,999+",
+      price: "Get a Quote",
       description: "Mission-critical architectures and full web applications.",
       isPopular: false,
       features: [
         "Custom Web Application / SaaS",
-        "Responsive Mobile-First Design",
-        "Advanced SEO & Performance Config",
+        "Advanced SEO & Performance",
         "High-Availability Architecture",
         "Admin Dashboard & User Auth",
         "Payment Gateway Integration",
-        "Free SSL Certificate",
+        "AI Chatbot Integration",
         "Custom Graphic Assets",
-        "Business Email Configuration",
         "Dedicated VIP Support SLA",
       ],
+      lacks: []
     },
   ];
 
@@ -103,14 +109,20 @@ export function PricingPackages() {
               
               <ul className="flex-1 space-y-4 mb-8">
                 {tier.features.map((feature, i) => (
-                  <li key={i} className="flex items-start">
+                  <li key={`feat-${i}`} className="flex items-start">
                     <Check className="w-5 h-5 text-meshark-green shrink-0 mr-3 mt-0.5" />
                     <span className="text-meshark-silver text-sm">{feature}</span>
                   </li>
                 ))}
+                {tier.lacks?.map((feature, i) => (
+                  <li key={`lack-${i}`} className="flex items-start opacity-50">
+                    <X className="w-5 h-5 text-meshark-silver shrink-0 mr-3 mt-0.5" />
+                    <span className="text-meshark-silver text-sm line-through">{feature}</span>
+                  </li>
+                ))}
               </ul>
               
-              <Link href="/contact" className={`w-full py-3 rounded-lg font-semibold text-center block transition-all ${
+              <Link href="/contact" className={`w-full py-3 mt-auto rounded-lg font-semibold text-center block transition-all ${
                 tier.isPopular 
                   ? "bg-meshark-cyan text-meshark-slateDark hover:bg-white shadow-[0_0_20px_rgba(0,229,255,0.4)]" 
                   : "bg-meshark-slateMid text-white hover:bg-meshark-slate border border-meshark-cyan/30"
@@ -120,6 +132,23 @@ export function PricingPackages() {
             </motion.div>
           ))}
         </div>
+
+        {/* Deposit Note */}
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 flex justify-center w-full"
+        >
+          <div className="inline-flex items-center px-5 py-3 rounded-xl bg-meshark-slate border border-meshark-cyan/20">
+            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-meshark-cyan/20 text-meshark-cyan mr-3 shrink-0">
+              <Shield className="w-3.5 h-3.5" />
+            </span>
+            <p className="text-meshark-silver text-sm">
+              <span className="text-white font-semibold">Note:</span> A <span className="text-meshark-cyan font-semibold">50% deposit</span> is required to initiate design and development for all web and software applications.
+            </p>
+          </div>
+        </motion.div>
 
         {/* Why Choose Mesharktech */}
         <div className="mt-32 pt-20 border-t border-meshark-blue/20">
