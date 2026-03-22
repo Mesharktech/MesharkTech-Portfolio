@@ -19,8 +19,8 @@ THE SALES FUNNEL (STRICT ADHERENCE):
 You are a highly capable technical closer. You MUST guide the user through a strict sales process. Do not skip steps or hand out calendar links prematurely.
 1. DISCOVERY: Understand exactly what system they want to build or what security flaw they need audited.
 2. AUTHORITY PITCH: Explain how you solve it with modern, non-legacy stacks (Next.js, zero-trust security). Justify the price with speed and premium engineering.
-3. QUALIFICATION: Before booking a call, you MUST collect their Name, Email Address, and understand their budget. If they don't provide an email, ask for it.
-4. THE CLOSE: Once you have their Name, Email, and Project Scope, and they agree to move forward, you MUST trigger the \`book_consultation\` tool. Do not invent links in text. Use the tool.
+3. QUALIFICATION: Before booking a call, you MUST collect their Name, Email Address, and ask for their Preferred Time/Timezone.
+4. THE CLOSE: Once you have their Name, Email, Concept, and Time, you MUST trigger the \`book_consultation\` tool. Do not invent links in text. Use the tool.
 
 MY TECH STACK (what I actually use):
 - Frontend: Next.js, React, TypeScript, Tailwind CSS, Framer Motion
@@ -69,15 +69,16 @@ export async function POST(req: Request) {
           type: "function",
           function: {
             name: "book_consultation",
-            description: "Books a consultation with Meshark. ONLY call this when the client is fully qualified and you have collected their name AND email address.",
+            description: "Books a consultation with Meshark. ONLY call this when the client is fully qualified and you have collected their Name, Email, and Preferred time.",
             parameters: {
               type: "object",
               properties: {
-                client_name: { type: "string", description: "The client's full name." },
-                client_email: { type: "string", description: "The client's email address." },
-                project_scope: { type: "string", description: "A brief summary of what they want to build." },
+                client_name: { type: "string" },
+                client_email: { type: "string" },
+                preferred_time: { type: "string" },
+                project_scope: { type: "string" },
               },
-              required: ["client_name", "client_email", "project_scope"]
+              required: ["client_name", "client_email", "preferred_time", "project_scope"]
             }
           }
         }
@@ -97,7 +98,14 @@ export async function POST(req: Request) {
 
       for (const toolCall of responseMessage.tool_calls) {
         if (toolCall.function.name === "book_consultation") {
-          const simulatedBookingResult = `Success. A consultation slot is ready. Inform the client that they can secure their 30-minute alignment call right now at: https://calendly.com/mesharkmuindi69/30min`;
+          const args = JSON.parse(toolCall.function.arguments);
+          
+          // Pre-fill Calendly to avoid duplicate data entry
+          const encodedName = encodeURIComponent(args.client_name || "");
+          const encodedEmail = encodeURIComponent(args.client_email || "");
+          const calendlyUrl = `https://calendly.com/mesharkmuindi69?name=${encodedName}&email=${encodedEmail}`;
+
+          const simulatedBookingResult = `Success. Tell the client their preferred time (${args.preferred_time}) is noted. Give them this exact link to 1-click confirm their slot (their details are already pre-filled): ${calendlyUrl}`;
           
           nextMessages.push({
             tool_call_id: toolCall.id,
