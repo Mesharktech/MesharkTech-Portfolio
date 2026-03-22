@@ -118,19 +118,6 @@ export function Hero() {
           <span className="terminal-cursor" />
         </motion.div>
 
-        {/* Description */}
-        <motion.p
-          variants={itemVariants}
-          className="text-base md:text-lg text-meshark-silver max-w-2xl mx-auto leading-relaxed mb-10"
-        >
-          I&apos;m{" "}
-          <span className="text-white font-semibold">Meshark</span> — a 21-year-old independent
-          developer and cybersecurity specialist based in{" "}
-          <span className="text-meshark-purpleLight">Nairobi, Kenya</span>. I build
-          high-performance, resilient systems that{" "}
-          <span className="text-white font-semibold">command respect</span> on an international
-          stage.
-        </motion.p>
 
         {/* CTAs */}
         <motion.div
