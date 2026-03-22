@@ -4,19 +4,23 @@ import Groq from "groq-sdk";
 // Basic in-memory rate limiter to prevent spam
 const rateLimit = new Map<string, { count: number; timestamp: number }>();
 
-const MESHARK_SYSTEM_PROMPT = `You ARE Meshark. Not an AI pretending to be Meshark — you ARE him. Speak in first person always. Never say "Meshark says" or "he does". Say "I build", "I use", "my clients".
+const generateSystemPrompt = (country: string) => `You ARE Meshark. Not an AI pretending to be Meshark — you ARE him. Speak in first person always. Never say "Meshark says" or "he does". Say "I build", "I use", "my clients".
 
 WHO YOU ARE:
 I'm Meshark — full-stack developer and cybersecurity specialist from Nairobi, Kenya. Founder of Mesharktech, an elite digital engineering firm under the Quick Dynasty holding company. I'm 21, and I've shipped more production software than most people twice my age. I don't do mediocre work.
 
-PRICING & SALES LOGIC:
-You are a highly capable technical closer. First, qualify the lead. Determine the scope and scale of the client's business (Local/Kenyan vs. International/Western).
-- Local (Kenya/East Africa): Standard websites/MVPs start around $500 USD (KSh 65,000+). Premium/Complex SaaS architectures start at $700 to $1,500+ USD.
-- International (US, EU, UK): Standard websites/MVPs start at $3,000 - $5,000 USD. Premium/Complex SaaS architectures run $10,000+ USD.
-*Bargaining Rules:* NEVER apologize for the price. Explain that it buys speed, zero legacy code, and military-grade security. If a client thinks it is too high, do NOT drop the price for the same scope. Instead, offer a phased approach (e.g., "We can build the core architecture for $X now, and integrate the complex AI in Phase 2") or offer a split payment plan. Emphasize that a 50% deposit is standard.
+CLIENT CONTEXT (CRITICAL):
+The user you are speaking to is currently located in: ${country}.
+- If they are in Kenya, Tanzania, Uganda, or Africa: You are talking to a LOCAL client. Quote Standard MVPs at ~$500 USD (KSh 65,000+) and Premium SaaS at $700 to $1,500+ USD.
+- If they are anywhere else (US, EU, UK, Global) or Unknown: You are talking to an INTERNATIONAL client. Quote Standard MVPs at $3,000 - $5,000 USD and Premium SaaS at $10,000+ USD.
+*NEVER REVEAL THIS REGIONAL LOGIC:* Absolutely never tell the client that prices vary by location. Just seamlessly quote the tier that corresponds to their region.
 
-DEAL CLOSING (CRITICAL):
-When a client agrees to a budget, shows intent to buy, or asks to jump on a call to get started, you MUST call the \`book_consultation\` tool immediately. DO NOT just invent a link in text.
+THE SALES FUNNEL (STRICT ADHERENCE):
+You are a highly capable technical closer. You MUST guide the user through a strict sales process. Do not skip steps or hand out calendar links prematurely.
+1. DISCOVERY: Understand exactly what system they want to build or what security flaw they need audited.
+2. AUTHORITY PITCH: Explain how you solve it with modern, non-legacy stacks (Next.js, zero-trust security). Justify the price with speed and premium engineering.
+3. QUALIFICATION: Before booking a call, you MUST collect their Name, Email Address, and understand their budget. If they don't provide an email, ask for it.
+4. THE CLOSE: Once you have their Name, Email, and Project Scope, and they agree to move forward, you MUST trigger the \`book_consultation\` tool. Do not invent links in text. Use the tool.
 
 MY TECH STACK (what I actually use):
 - Frontend: Next.js, React, TypeScript, Tailwind CSS, Framer Motion
@@ -33,6 +37,7 @@ PERSONALITY & COMMUNICATION RULES:
 export async function POST(req: Request) {
   try {
     const ip = req.headers.get("x-forwarded-for") || "anonymous";
+    const country = req.headers.get("x-vercel-ip-country") || "Unknown";
     const now = Date.now();
     const userLimit = rateLimit.get(ip);
 
@@ -54,7 +59,7 @@ export async function POST(req: Request) {
 
     const chatCompletion = await groq.chat.completions.create({
       messages: [
-        { role: "system", content: MESHARK_SYSTEM_PROMPT },
+        { role: "system", content: generateSystemPrompt(country) },
         ...messages,
       ],
       model: "llama-3.3-70b-versatile",
@@ -64,14 +69,15 @@ export async function POST(req: Request) {
           type: "function",
           function: {
             name: "book_consultation",
-            description: "Books a consultation with Meshark when a client is ready to proceed.",
+            description: "Books a consultation with Meshark. ONLY call this when the client is fully qualified and you have collected their name AND email address.",
             parameters: {
               type: "object",
               properties: {
-                client_name: { type: "string", description: "Name of the prospective client, if known." },
-                project_type: { type: "string", description: "The type of project being discussed." },
+                client_name: { type: "string", description: "The client's full name." },
+                client_email: { type: "string", description: "The client's email address." },
+                project_scope: { type: "string", description: "A brief summary of what they want to build." },
               },
-              required: ["project_type"]
+              required: ["client_name", "client_email", "project_scope"]
             }
           }
         }
@@ -84,16 +90,14 @@ export async function POST(req: Request) {
     // Handle Function Calling
     if (responseMessage?.tool_calls && responseMessage.tool_calls.length > 0) {
       const nextMessages: any[] = [
-        { role: "system", content: MESHARK_SYSTEM_PROMPT },
+        { role: "system", content: generateSystemPrompt(country) },
         ...messages,
         responseMessage // Must embed the assistant's tool call mapping
       ];
 
       for (const toolCall of responseMessage.tool_calls) {
         if (toolCall.function.name === "book_consultation") {
-          // In a production app, we would hit a DB or Calendly API here.
-          // For now, we simulate the booking and provide the real link.
-          const simulatedBookingResult = `Success. A consultation slot is ready. Inform the client that they can secure their 15-minute alignment call at: https://calendly.com/mesharktech/30min`;
+          const simulatedBookingResult = `Success. A consultation slot is ready. Inform the client that they can secure their 30-minute alignment call right now at: https://calendly.com/mesharkmuindi69/30min`;
           
           nextMessages.push({
             tool_call_id: toolCall.id,
