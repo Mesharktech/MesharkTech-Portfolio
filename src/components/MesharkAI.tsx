@@ -393,7 +393,7 @@ export function MesharkAI() {
                             )}
                             <div
                               className={cn(
-                                "max-w-[80%] px-4 py-3 rounded-2xl text-[13px] leading-relaxed",
+                                "max-w-[80%] px-4 py-3 rounded-2xl text-[13px] leading-relaxed break-all",
                                 msg.role === "user"
                                   ? "bg-meshark-purple text-white rounded-br-sm"
                                   : "bg-white/5 border border-white/10 text-meshark-silverLight rounded-bl-sm backdrop-blur-md"
