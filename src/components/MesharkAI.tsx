@@ -164,7 +164,7 @@ export function MesharkAI() {
             className="fixed bottom-[36px] right-[90px] z-40 cursor-pointer"
             onClick={() => { setIsOpen(true); setIsMinimized(false); setShowBubble(false); }}
           >
-            <p className="font-display font-extrabold text-2xl tracking-wide flaming-text-cyan whitespace-nowrap">
+            <p className="font-display font-black text-3xl tracking-wider flame-font-cyan whitespace-nowrap drop-shadow-[0_4px_15px_rgba(0,230,164,0.3)]">
               {bubbleText}
             </p>
           </motion.div>

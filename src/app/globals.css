@@ -235,6 +235,18 @@
     }
   }
 
+  .flame-font-cyan {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: url('/fire.gif');
+    background-size: cover;
+    background-position: center bottom;
+    filter: hue-rotate(150deg) saturate(180%) brightness(1.1);
+    display: inline-block;
+  }
+
   .dot-grid {
     background-image: radial-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px);
     background-size: 32px 32px;
