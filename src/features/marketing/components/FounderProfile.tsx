@@ -139,7 +139,7 @@ export function FounderProfile() {
           <div className="lg:col-span-2 flex flex-col items-center lg:items-start lg:order-2">
             <div className="relative w-64 h-72 lg:w-full lg:h-96 rounded-2xl overflow-hidden border-2 border-meshark-cyan/30 shadow-[0_0_40px_rgba(0,230,164,0.2)]">
               <Image
-                src="/paul-kibu.jpg"
+                src="/paul-kibu.png"
                 alt="Paul Kibu — Co-Founder of Mesharktech"
                 fill
                 className="object-cover object-top"
