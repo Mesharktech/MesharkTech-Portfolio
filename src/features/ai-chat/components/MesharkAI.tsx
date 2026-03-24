@@ -46,6 +46,27 @@ function TypingIndicator() {
   );
 }
 
+const renderMessageContent = (content: string) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = content.split(urlRegex);
+  return parts.map((part, i) => {
+    if (part.match(urlRegex)) {
+      return (
+        <a 
+          key={i} 
+          href={part} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-meshark-cyan font-bold underline decoration-meshark-cyan/40 hover:text-white drop-shadow-[0_0_8px_rgba(0,230,164,0.8)] transition-all break-all"
+        >
+          {part}
+        </a>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
+};
+
 export function MesharkAI() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -424,7 +445,7 @@ export function MesharkAI() {
                                   : "bg-white/5 border border-white/10 text-meshark-silverLight rounded-bl-sm backdrop-blur-md"
                               )}
                             >
-                              {msg.content}
+                              {renderMessageContent(msg.content)}
                             </div>
                           </motion.div>
                         ))}
