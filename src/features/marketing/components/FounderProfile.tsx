@@ -127,6 +127,49 @@ export function FounderProfile() {
           </div>
         </motion.div>
 
+        {/* Co-Founder card */}
+        <motion.div
+           initial={{ opacity: 0, y: 30 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.7, delay: 0.2 }}
+           className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center mt-32"
+        >
+          {/* LEFT: Portrait */}
+          <div className="lg:col-span-2 flex flex-col items-center lg:items-start lg:order-2">
+            <div className="relative w-64 h-72 lg:w-full lg:h-96 rounded-2xl overflow-hidden border-2 border-meshark-cyan/30 shadow-[0_0_40px_rgba(0,230,164,0.2)]">
+              <Image
+                src="/paul-kibu.jpg"
+                alt="Paul Kibu — Co-Founder of Mesharktech"
+                fill
+                className="object-cover object-top"
+              />
+              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-meshark-slateDark/80 to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5">
+                <p className="font-display font-bold text-white text-xl">Paul Kibu</p>
+                <p className="text-meshark-cyan text-sm font-mono">Co-Founder & Chief Operations</p>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: Bio & Details */}
+          <div className="lg:col-span-3 space-y-8 lg:order-1">
+            <div>
+              <h3 className="font-display text-3xl font-bold text-white mb-2">Paul Kibu</h3>
+              <p className="text-meshark-cyan font-mono text-sm tracking-wide leading-relaxed mb-6">Co-Founder · Chief Operations, QA & QC Expert <br/> Branding & Marketing Guru</p>
+
+              <div className="space-y-4 text-meshark-silver leading-relaxed">
+                <p>
+                  Bringing a world of experience in achieving the end result, Paul bridges the gap between deep technical execution and raw business reality. He ensures every Mesharktech deployment not only works flawlessly but commands dominance in the market.
+                </p>
+                <p>
+                  With an expansive background in branding, marketing strategy, and rigorous Quality Assurance, Paul acts as the operational backbone of the agency, guaranteeing that our engineering translates directly into revenue and scale for our clients.
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );
