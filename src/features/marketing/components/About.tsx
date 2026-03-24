@@ -59,7 +59,7 @@ export function About() {
           </div>
 
           <div className="mt-10 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-meshark-purple/20 border border-meshark-purple/40 flex items-center justify-center text-2xl">
+            <div className="w-12 h-12 rounded-2xl bg-meshark-cyan/20 border border-meshark-cyan/40 flex items-center justify-center text-2xl">
               🇰🇪
             </div>
             <div>

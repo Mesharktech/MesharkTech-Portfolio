@@ -1,10 +1,13 @@
-import { Github, ExternalLink, Terminal } from "lucide-react";
+import { Github, ExternalLink, Terminal, Linkedin, Twitter } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { CurrentYear } from "./CurrentYear";
 
 const links = [
   { label: "GitHub", href: "https://github.com/Mesharktech", icon: Github },
-  { label: "Netlify Deploys", href: "#projects", icon: ExternalLink },
+  { label: "LinkedIn", href: "https://linkedin.com/in/meshark", icon: Linkedin },
+  { label: "Twitter / X", href: "https://x.com/mesharktech", icon: Twitter },
+  { label: "Portfolio", href: "/projects", icon: ExternalLink, internal: true },
 ];
 
 export function Footer() {
@@ -23,7 +26,7 @@ export function Footer() {
                 className="w-9 h-9 transition-transform duration-300 group-hover:-translate-y-1"
               />
               <span className="font-display font-bold text-xl tracking-tight text-white mt-1">
-                Meshark<span className="text-meshark-purpleLight">tech</span>
+                Meshark<span className="text-meshark-cyanLight">tech</span>
               </span>
             </div>
             <p className="text-xs text-meshark-silver leading-relaxed max-w-xs">
@@ -33,13 +36,13 @@ export function Footer() {
               href="https://github.com/Mesharktech" 
               target="_blank" 
               rel="noreferrer" 
-              className="inline-block text-xs font-mono text-meshark-purple/70 mt-4 hover:text-white transition-colors cursor-pointer"
+              className="inline-block text-xs font-mono text-meshark-cyan/70 mt-4 hover:text-white transition-colors cursor-pointer"
             >
               // Quick Dynasty ethos
             </a>
           </div>
           <div>
-            <p className="text-xs font-mono text-meshark-purple tracking-widest uppercase mb-4">Navigation</p>
+            <p className="text-xs font-mono text-meshark-cyan tracking-widest uppercase mb-4">Navigation</p>
             <div className="flex flex-col gap-3">
               {[
                 { label: "Capabilities", path: "/services" },
@@ -60,19 +63,30 @@ export function Footer() {
 
           {/* External */}
           <div>
-            <p className="text-xs font-mono text-meshark-purple tracking-widest uppercase mb-4">Find Me</p>
+            <p className="text-xs font-mono text-meshark-cyan tracking-widest uppercase mb-4">Find Me</p>
             <div className="flex flex-col gap-3">
-              {links.map(({ label, href, icon: Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2 text-sm text-meshark-silver hover:text-white transition-colors"
-                >
-                  <Icon className="w-4 h-4" />
-                  {label}
-                </a>
+              {links.map(({ label, href, icon: Icon, internal }) => (
+                internal ? (
+                  <Link
+                    key={label}
+                    href={href}
+                    className="flex items-center gap-2 text-sm text-meshark-silver hover:text-white transition-colors"
+                  >
+                    <Icon className="w-4 h-4" />
+                    {label}
+                  </Link>
+                ) : (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2 text-sm text-meshark-silver hover:text-white transition-colors"
+                  >
+                    <Icon className="w-4 h-4" />
+                    {label}
+                  </a>
+                )
               ))}
             </div>
           </div>
@@ -80,7 +94,7 @@ export function Footer() {
 
         <div className="mt-10 pt-6 border-t border-meshark-slate flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-meshark-silver/50 font-mono">
-            &copy; {new Date().getFullYear()} Mesharktech. Engineered in Nairobi 🇰🇪
+            &copy; <CurrentYear /> Mesharktech. Engineered in Nairobi 🇰🇪
           </p>
           <div className="flex items-center gap-1.5 text-xs font-mono text-meshark-silver/50">
             <Terminal className="w-3 h-3" />

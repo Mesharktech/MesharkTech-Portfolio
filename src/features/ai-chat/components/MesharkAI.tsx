@@ -19,7 +19,7 @@ const WELCOME_MESSAGE: Message = {
 
 function AgentAvatar({ className }: { className?: string }) {
   return (
-    <div className={cn("relative overflow-hidden shrink-0 border border-meshark-purpleLight/30 bg-meshark-purpleDark flex items-center justify-center", className)}>
+    <div className={cn("relative overflow-hidden shrink-0 border border-meshark-cyanLight/30 bg-meshark-blue flex items-center justify-center", className)}>
       <img src="/meshark-mugshot.jpg" alt="Meshark AI" className="w-full h-full object-cover z-10 scale-[1.7] origin-[50%_25%]" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
       <span className="absolute inset-0 flex items-center justify-center font-display font-bold text-white/50 text-xs">M</span>
     </div>
@@ -35,7 +35,7 @@ function TypingIndicator() {
           {[0, 0.2, 0.4].map((delay) => (
             <motion.span
               key={delay}
-              className="w-1.5 h-1.5 bg-meshark-purpleLight rounded-full"
+              className="w-1.5 h-1.5 bg-meshark-cyanLight rounded-full"
               animate={{ y: [0, -5, 0] }}
               transition={{ duration: 0.8, repeat: Infinity, delay, ease: "easeInOut" }}
             />
@@ -78,10 +78,10 @@ export function MesharkAI() {
     }
 
     const phrases = [
-      "Yo",
-      "Sup",
-      "Hey",
-      "Let's talk"
+      "Need a quote?",
+      "Let's build.",
+      "I'm online.",
+      "Talk strategy."
     ];
     let phraseIndex = 0;
     let interval: NodeJS.Timeout;
@@ -186,11 +186,19 @@ export function MesharkAI() {
   };
 
   const submitFeedback = async () => {
-    // In a real app, you'd send this to an API
-    console.log("Feedback submitted:", { feedbackRating, feedbackText });
-    setFeedbackSubmitted(true);
-    // Optionally, you could close the chat after a delay or immediately
-    // setTimeout(forceClose, 3000);
+    try {
+      const res = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rating: feedbackRating, feedback: feedbackText }),
+      });
+      if (!res.ok) throw new Error("Failed to submit feedback");
+      setFeedbackSubmitted(true);
+    } catch (error) {
+      console.error("Feedback submission error:", error);
+      // Still show success to user — feedback is non-critical
+      setFeedbackSubmitted(true);
+    }
   };
 
   return (
@@ -233,7 +241,7 @@ export function MesharkAI() {
       <motion.button
         onClick={() => { setIsOpen(true); setIsMinimized(false); }}
         className={cn(
-          "fixed bottom-6 right-6 z-50 w-14 h-14 rounded-2xl bg-meshark-purple flex items-center justify-center shadow-lg glow-purple-lg transition-all duration-300",
+          "fixed bottom-6 right-6 z-50 w-14 h-14 rounded-2xl bg-meshark-cyan flex items-center justify-center shadow-lg glow-cyan-lg transition-all duration-300",
           isOpen && "opacity-0 pointer-events-none scale-75"
         )}
         whileHover={{ scale: 1.08 }}
@@ -345,7 +353,7 @@ export function MesharkAI() {
                   {/* Header */}
                   <div className="flex items-center gap-3 px-5 py-4 border-b border-white/8 shrink-0 bg-white/[0.03] relative z-10">
                     <div className="relative">
-                      <AgentAvatar className="w-9 h-9 rounded-xl glow-purple" />
+                      <AgentAvatar className="w-9 h-9 rounded-xl glow-cyan" />
                       <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-meshark-green rounded-full border-2 border-meshark-slateDark" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -392,7 +400,7 @@ export function MesharkAI() {
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.2 }}
                         className="flex-1 overflow-y-auto px-4 py-5 flex flex-col gap-4 relative z-10"
-                        style={{ maxHeight: "360px", minHeight: "360px" }}
+                        style={{ maxHeight: "min(360px, calc(100dvh - 14rem))", minHeight: "280px" }}
                       >
                         {messages.map((msg, i) => (
                           <motion.div
@@ -410,9 +418,9 @@ export function MesharkAI() {
                             )}
                             <div
                               className={cn(
-                                "max-w-[80%] px-4 py-3 rounded-2xl text-[13px] leading-relaxed break-all",
+                                "max-w-[80%] px-4 py-3 rounded-2xl text-[13px] leading-relaxed break-words [overflow-wrap:anywhere]",
                                 msg.role === "user"
-                                  ? "bg-meshark-purple text-white rounded-br-sm"
+                                  ? "bg-meshark-cyan text-white rounded-br-sm"
                                   : "bg-white/5 border border-white/10 text-meshark-silverLight rounded-bl-sm backdrop-blur-md"
                               )}
                             >
@@ -429,7 +437,7 @@ export function MesharkAI() {
                   {/* Input Form */}
                   {!isMinimized && (
                     <div className="px-4 pb-4 pt-2 shrink-0 border-t border-white/8 bg-white/[0.02]">
-                      <form onSubmit={sendMessage} className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 focus-within:border-meshark-purple/60 transition-colors">
+                      <form onSubmit={sendMessage} className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 focus-within:border-meshark-cyan/60 transition-colors">
                         <input
                           ref={inputRef}
                           value={inputValue}
@@ -445,7 +453,7 @@ export function MesharkAI() {
                           className={cn(
                             "w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all",
                             inputValue.trim() && !isLoading
-                              ? "bg-meshark-purple text-white hover:bg-meshark-purpleLight"
+                              ? "bg-meshark-cyan text-white hover:bg-meshark-cyanLight"
                               : "bg-meshark-slate text-meshark-silver/40 cursor-not-allowed"
                           )}
                         >

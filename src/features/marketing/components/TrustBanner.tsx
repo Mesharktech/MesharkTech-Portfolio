@@ -14,7 +14,7 @@ export function TrustBanner() {
     <section className="w-full border-y border-meshark-slate bg-[#050b1a] py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <p className="text-xs font-mono text-meshark-purple tracking-widest uppercase">
+          <p className="text-xs font-mono text-meshark-cyan tracking-widest uppercase">
             Certifications & Architectural Standards
           </p>
           <h2 className="text-white font-display text-2xl font-bold mt-3">
@@ -30,9 +30,9 @@ export function TrustBanner() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="p-6 rounded-2xl bg-[#080d1e] border border-meshark-slate flex flex-col items-center justify-center text-center group hover:border-meshark-purple/30 transition-colors"
+              className="p-6 rounded-2xl bg-[#080d1e] border border-meshark-slate flex flex-col items-center justify-center text-center group hover:border-meshark-cyan/30 transition-colors"
             >
-              <h4 className="text-meshark-purpleLight font-display font-semibold mb-2 text-sm sm:text-base">
+              <h4 className="text-meshark-cyanLight font-display font-semibold mb-2 text-sm sm:text-base">
                 {partner.name}
               </h4>
               <p className="text-xs text-meshark-silver font-mono">

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Terminal } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "/services", label: "Capabilities" },
@@ -17,6 +17,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -54,22 +55,26 @@ export function Navbar() {
               className="w-10 h-10 transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_15px_rgba(124,58,237,0.5)]"
             />
             <span className="font-display font-bold text-2xl tracking-tight text-white mt-1 hidden sm:block">
-              Meshark<span className="text-meshark-purpleLight">tech</span>
+              Meshark<span className="text-meshark-cyanLight">tech</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-meshark-silver hover:text-white transition-colors duration-200 relative group"
+                aria-current={isActive ? "page" : undefined}
+                className={`text-sm font-medium transition-colors duration-200 relative group ${isActive ? "text-white" : "text-meshark-silver hover:text-white"}`}
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-meshark-purple transition-all duration-300 group-hover:w-full rounded-full" />
+                <span className={`absolute -bottom-1 left-0 h-0.5 bg-meshark-cyan transition-all duration-300 rounded-full ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
               </Link>
-            ))}
+              );
+            })}
             <Link
               href="/contact"
               className="btn-primary text-sm py-2 px-5"
@@ -82,7 +87,7 @@ export function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileOpen((v) => !v)}
-            className="md:hidden w-10 h-10 rounded-lg bg-meshark-slate/50 border border-meshark-purpleDark/50 flex items-center justify-center text-meshark-silver hover:text-white transition-colors"
+            className="md:hidden w-10 h-10 rounded-lg bg-meshark-slate/50 border border-meshark-blue/50 flex items-center justify-center text-meshark-silver hover:text-white transition-colors"
             aria-label="Toggle menu"
           >
             {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -121,7 +126,7 @@ export function Navbar() {
               </div>
               <div className="mt-auto">
                 <button
-                  onClick={() => handleNavClick("#contact")}
+                  onClick={() => handleNavClick("/contact")}
                   className="btn-primary w-full justify-center text-base"
                 >
                   <Terminal className="w-4 h-4" /> Hire Me

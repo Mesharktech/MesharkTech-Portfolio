@@ -3,25 +3,33 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Send, Terminal, Mail, Github, CheckCircle2, AlertCircle } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { contactFormSchema, type ContactFormValues } from "@/lib/validations/contact";
 
 export function Contact() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: { name: "", email: "", message: "" },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: ContactFormValues) => {
     setStatus("sending");
     
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formState),
+        body: JSON.stringify(data),
       });
       
       if (!res.ok) throw new Error("Failed to send");
@@ -29,7 +37,7 @@ export function Contact() {
       setStatus("success");
       setTimeout(() => {
         setStatus("idle");
-        setFormState({ name: "", email: "", message: "" });
+        reset();
       }, 3000);
     } catch (error) {
       console.error(error);
@@ -74,45 +82,39 @@ export function Contact() {
             <span className="ml-4 text-xs font-mono text-meshark-silver">meshark@terminal: ~/contact</span>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-7 flex flex-col gap-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="p-7 flex flex-col gap-5">
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="name" className="text-xs font-mono text-meshark-purple">$ name</label>
+              <label htmlFor="name" className="text-xs font-mono text-meshark-cyan">$ name</label>
               <input
                 id="name"
                 type="text"
-                name="name"
-                required
-                value={formState.name}
-                onChange={handleChange}
+                {...register("name")}
                 placeholder="Your name"
-                className="w-full bg-meshark-slateDark/50 border border-meshark-slate focus:border-meshark-purple rounded-xl px-4 py-3 text-sm text-white placeholder:text-meshark-silver/40 outline-none transition-colors font-mono"
+                className={`w-full bg-meshark-slateDark/50 border ${errors.name ? 'border-red-500' : 'border-meshark-slate focus:border-meshark-cyan'} rounded-xl px-4 py-3 text-sm text-white placeholder:text-meshark-silver/40 outline-none transition-colors font-mono`}
               />
+              {errors.name && <span className="text-xs text-red-500">{errors.name.message}</span>}
             </div>
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="email" className="text-xs font-mono text-meshark-purple">$ email</label>
+              <label htmlFor="email" className="text-xs font-mono text-meshark-cyan">$ email</label>
               <input
                 id="email"
                 type="email"
-                name="email"
-                required
-                value={formState.email}
-                onChange={handleChange}
+                {...register("email")}
                 placeholder="your@email.com"
-                className="w-full bg-meshark-slateDark/50 border border-meshark-slate focus:border-meshark-purple rounded-xl px-4 py-3 text-sm text-white placeholder:text-meshark-silver/40 outline-none transition-colors font-mono"
+                className={`w-full bg-meshark-slateDark/50 border ${errors.email ? 'border-red-500' : 'border-meshark-slate focus:border-meshark-cyan'} rounded-xl px-4 py-3 text-sm text-white placeholder:text-meshark-silver/40 outline-none transition-colors font-mono`}
               />
+              {errors.email && <span className="text-xs text-red-500">{errors.email.message}</span>}
             </div>
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="message" className="text-xs font-mono text-meshark-purple">$ message</label>
+              <label htmlFor="message" className="text-xs font-mono text-meshark-cyan">$ message</label>
               <textarea
                 id="message"
-                name="message"
-                required
-                value={formState.message}
-                onChange={handleChange}
+                {...register("message")}
                 rows={5}
                 placeholder="Describe the mission..."
-                className="w-full bg-meshark-slateDark/50 border border-meshark-slate focus:border-meshark-purple rounded-xl px-4 py-3 text-sm text-white placeholder:text-meshark-silver/40 outline-none transition-colors font-mono resize-none"
+                className={`w-full bg-meshark-slateDark/50 border ${errors.message ? 'border-red-500' : 'border-meshark-slate focus:border-meshark-cyan'} rounded-xl px-4 py-3 text-sm text-white placeholder:text-meshark-silver/40 outline-none transition-colors font-mono resize-none`}
               />
+              {errors.message && <span className="text-xs text-red-500">{errors.message.message}</span>}
             </div>
 
             <button
@@ -153,14 +155,14 @@ export function Contact() {
           className="flex flex-col gap-6"
         >
           <div className="glass-card p-6 flex items-center gap-4">
-            <div className="w-11 h-11 rounded-2xl bg-meshark-purple/20 border border-meshark-purple/40 flex items-center justify-center shrink-0">
-              <Mail className="w-5 h-5 text-meshark-purpleLight" />
+            <div className="w-11 h-11 rounded-2xl bg-meshark-cyan/20 border border-meshark-cyan/40 flex items-center justify-center shrink-0">
+              <Mail className="w-5 h-5 text-meshark-cyanLight" />
             </div>
             <div>
               <p className="text-xs text-meshark-silver mb-1">Direct Line</p>
               <a
                 href="mailto:contact@mesharktech.com"
-                className="text-white font-medium hover:text-meshark-purpleLight transition-colors"
+                className="text-white font-medium hover:text-meshark-cyanLight transition-colors"
               >
                 contact@mesharktech.com
               </a>
@@ -168,8 +170,8 @@ export function Contact() {
           </div>
 
           <div className="glass-card p-6 flex items-center gap-4">
-            <div className="w-11 h-11 rounded-2xl bg-meshark-purple/20 border border-meshark-purple/40 flex items-center justify-center shrink-0">
-              <Github className="w-5 h-5 text-meshark-purpleLight" />
+            <div className="w-11 h-11 rounded-2xl bg-meshark-cyan/20 border border-meshark-cyan/40 flex items-center justify-center shrink-0">
+              <Github className="w-5 h-5 text-meshark-cyanLight" />
             </div>
             <div>
               <p className="text-xs text-meshark-silver mb-1">Source Control</p>
@@ -177,7 +179,7 @@ export function Contact() {
                 href="https://github.com/Mesharktech"
                 target="_blank"
                 rel="noreferrer"
-                className="text-white font-medium hover:text-meshark-purpleLight transition-colors"
+                className="text-white font-medium hover:text-meshark-cyanLight transition-colors"
               >
                 github.com/Mesharktech
               </a>
@@ -185,7 +187,7 @@ export function Contact() {
           </div>
 
           <div className="glass-card p-6">
-            <p className="text-xs font-mono text-meshark-purple mb-3">$ availability_status</p>
+            <p className="text-xs font-mono text-meshark-cyan mb-3">$ availability_status</p>
             <div className="flex items-center gap-3">
               <span className="relative flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -199,7 +201,7 @@ export function Contact() {
           </div>
 
           <div className="glass-card p-6 flex items-start gap-4">
-            <Terminal className="w-5 h-5 text-meshark-purple shrink-0 mt-0.5" />
+            <Terminal className="w-5 h-5 text-meshark-cyan shrink-0 mt-0.5" />
             <div>
               <p className="text-xs text-meshark-silver mb-1">Prefer a faster route?</p>
               <p className="text-sm text-white">

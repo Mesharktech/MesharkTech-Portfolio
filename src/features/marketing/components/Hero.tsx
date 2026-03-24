@@ -44,9 +44,9 @@ const roles = [
 ];
 
 const stats = [
-  { value: "150+", label: "Happy Clients" },
-  { value: "10+", label: "Years Experience" },
-  { value: "50+", label: "Enterprise Projects" },
+  { value: "5+", label: "Industries Served" },
+  { value: "5+", label: "Live Client Sites" },
+  { value: "4.9★", label: "Avg Client Rating" },
   { value: "24/7", label: "Global Support" },
 ];
 
@@ -78,7 +78,7 @@ export function Hero() {
       <motion.div
         animate={{ scale: [1, 1.15, 1], opacity: [0.12, 0.2, 0.12] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-meshark-purple rounded-full blur-[120px] pointer-events-none"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-meshark-cyan rounded-full blur-[120px] pointer-events-none"
       />
 
       <motion.div
@@ -89,7 +89,7 @@ export function Hero() {
       >
         {/* Status badge */}
         <motion.div variants={itemVariants} className="flex justify-center mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-meshark-slate/60 border border-meshark-purpleDark/70 text-meshark-purpleLight text-sm font-medium backdrop-blur-sm glow-purple">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-meshark-slate/60 border border-meshark-blue/70 text-meshark-cyanLight text-sm font-medium backdrop-blur-sm glow-cyan">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-meshark-green opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-meshark-green" />
@@ -113,7 +113,7 @@ export function Hero() {
           variants={itemVariants}
           className="font-mono text-lg md:text-xl text-meshark-silver mb-6 h-8"
         >
-          <span className="text-meshark-purpleLight">&gt; </span>
+          <span className="text-meshark-cyanLight">&gt; </span>
           <span>{typedText}</span>
           <span className="terminal-cursor" />
         </motion.div>
@@ -165,7 +165,7 @@ export function Hero() {
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-10 bg-gradient-to-b from-meshark-purple/50 to-transparent"
+          className="w-px h-10 bg-gradient-to-b from-meshark-cyan/50 to-transparent"
         />
       </motion.div>
     </section>

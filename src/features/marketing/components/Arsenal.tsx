@@ -43,7 +43,7 @@ export function Arsenal() {
             className="p-6 rounded-2xl bg-meshark-slate border border-meshark-cyan/10 hover:border-meshark-cyan/30 transition-all hover:-translate-y-1 shadow-[0_0_15px_rgba(0,0,0,0.5)]"
           >
             <h4 className="flex items-center gap-3 font-display text-meshark-cyan font-semibold text-sm mb-5">
-              <span className="w-2 h-2 rounded-full bg-meshark-purpleLight shadow-[0_0_10px_rgba(2,247,177,0.8)]" />
+              <span className="w-2 h-2 rounded-full bg-meshark-cyanLight shadow-[0_0_10px_rgba(2,247,177,0.8)]" />
               {stack.category}
             </h4>
             <div className="flex flex-wrap gap-2">
