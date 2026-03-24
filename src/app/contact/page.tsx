@@ -1,4 +1,4 @@
-import { Contact } from "@/components/Contact";
+import { Contact } from "@/features/contact/components/Contact";
 
 export const metadata = {
   title: "Contact | Mesharktech",

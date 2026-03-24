@@ -1,5 +1,5 @@
-import { About } from "@/components/About";
-import { FounderProfile } from "@/components/FounderProfile";
+import { About } from "@/features/marketing/components/About";
+import { FounderProfile } from "@/features/marketing/components/FounderProfile";
 
 export const metadata = {
   title: "About | Mesharktech",
