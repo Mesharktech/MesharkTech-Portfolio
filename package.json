@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.36.0",
     "groq-sdk": "^1.1.1",
@@ -16,7 +19,11 @@
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "tailwind-merge": "^3.5.0"
+    "react-hook-form": "^7.72.0",
+    "resend": "^6.9.4",
+    "tailwind-merge": "^3.5.0",
+    "twitter-api-v2": "^1.29.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.15.9",
