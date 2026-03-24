@@ -31,16 +31,57 @@ export async function POST(req: Request) {
       apiKey: process.env.GROQ_API_KEY || "",
     });
 
-    const prompts: Record<string, string> = {
-      cybersecurity: "You are Meshark, an elite 21-year-old Cybersecurity specialist and Next.js developer from Nairobi. Write a short, punchy Twitter thread (max 3 tweets) explaining a common Zero-Trust architecture flaw in modern SaaS applications and how you fix it. Do not use hashtags. Use severe, confident, professional language. End the thread telling them to hire your agency MesharkTech.",
-      performance: "You are Meshark, an elite 21-year-old Full-Stack Developer from Nairobi. Write a specific, highly technical tweet (280 chars max) about optimizing Next.js Server Components, caching, or reducing TTFB (Time To First Byte). Be highly technical. Sound like a senior engineer who builds enterprise systems. No hashtags.",
-      agency: "You are Meshark, founder of MesharkTech. Write a short tweet on LinkedIn/Twitter format about why cheap developers ($500 MVPs) end up costing startups 5x more in technical debt, and why investing in premium engineering ($3500+) is the only way to scale. Be confident, direct, and slightly provocative. End with a subtle call to action for MesharkTech.",
-      "seo-blog": "You are Meshark, founder of MesharkTech. Write a short, 300-word SEO-optimized blog post introduction and outline about securing API routes in Next.js 15. The tone should be authoritative. This will be published to Dev.to. Include a call to action to hire your team."
-    };
+    // Dynamic randomization pools to ensure varied content every generation
+    const cyberTopics = [
+      "JWT token vulnerabilities in client-side storage",
+      "SSRF attacks via misconfigured webhooks",
+      "IDOR issues in multitenant databases",
+      "Bypassing MFA schemas using legacy fallback routes",
+      "Why basic rate limiting isn't enough against modern botnets"
+    ];
+    const perfTopics = [
+      "Optimizing React Server Components for sub-100ms TTFB",
+      "Abusing Vercel Edge caching to avoid database roundtrips",
+      "Reducing Next.js bundle sizes by lazy-loading heavy charting libraries",
+      "How blocking main thread operations destroy conversion rates",
+      "The exact architecture I use to scale to 10k concurrent users"
+    ];
+    const agencyTopics = [
+      "Why the lowest bidder always ends up costing 5x more in technical debt",
+      "The difference between 'getting it to work' and engineering true scale",
+      "How legacy codebases slowly kill startup velocity",
+      "Why speed of execution dictates market dominance",
+      "Investing heavily in premium engineering to sleep peacefully during high-traffic events"
+    ];
+    const seoTopics = [
+      "Securing API Routes in Next.js 15 App Router",
+      "Building Zero-Trust Authentication with NextAuth and Supabase",
+      "Strategies for Edge Deployment latency reduction",
+      "Migrating from SPAs to deeply cached ISR pages",
+      "Handling global error boundaries gracefully in modern Next.js"
+    ];
+    const hooks = [
+      "Be aggressive and contrarian.", 
+      "Share a real war story from production.", 
+      "Be highly technical and analytical.", 
+      "Focus intensely on the financial impact.", 
+      "Keep sentences extremely short and punchy."
+    ];
 
-    const promptText = prompts[contentPillar];
-    if (!promptText) {
-       return NextResponse.json({ error: "Invalid content pillar." }, { status: 400 });
+    const pick = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+    const hook = pick(hooks);
+
+    let promptText = "";
+    if (contentPillar === "cybersecurity") {
+      promptText = `You are Meshark, an elite 21-year-old Cybersecurity specialist and Next.js developer from Nairobi. Write a short, punchy Twitter thread (max 3 tweets) specifically about: "${pick(cyberTopics)}". ${hook} Use severe, confident, professional language. End the thread telling them to hire your agency MesharkTech for a security audit. DO NOT USE ANY HASHTAGS.`;
+    } else if (contentPillar === "performance") {
+      promptText = `You are Meshark, an elite 21-year-old Full-Stack Developer from Nairobi. Write a specific, highly technical tweet (280 chars max) exactly regarding: "${pick(perfTopics)}". ${hook} Sound like a senior engineer who builds enterprise systems. Do not use hashtags.`;
+    } else if (contentPillar === "agency") {
+      promptText = `You are Meshark, founder of MesharkTech. Write a short, highly-engaging LinkedIn/Twitter post discussing: "${pick(agencyTopics)}". ${hook} Be confident, direct, and slightly provocative. End with a subtle call to action for MesharkTech. Avoid overused buzzwords.`;
+    } else if (contentPillar === "seo-blog") {
+      promptText = `You are Meshark, founder of MesharkTech. Write a short, 250-word SEO-optimized blog post introduction and outline focused directly on: "${pick(seoTopics)}". ${hook} The tone should be authoritative and deeply technical. Include a call to action to hire your team.`;
+    } else {
+      return NextResponse.json({ error: "Invalid content pillar." }, { status: 400 });
     }
 
     const chatCompletion = await groq.chat.completions.create({
