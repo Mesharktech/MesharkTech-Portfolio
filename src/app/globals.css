@@ -47,6 +47,15 @@
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
+@keyframes shimmer-rotate {
+  0% { --shimmer-angle: 0deg; }
+  100% { --shimmer-angle: 360deg; }
+}
+@property --shimmer-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 10px 0 rgba(0, 230, 164, 0.3); }
   50% { box-shadow: 0 0 25px 5px rgba(0, 230, 164, 0.6); }

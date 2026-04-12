@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { MesharkAI } from "@/features/ai-chat/components/MesharkAI";
+import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
 
 // Primary display font — clean, professional, internationally recognized
 const inter = Inter({
@@ -146,11 +147,13 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <Navbar />
-        <div className="min-h-screen">
-          {children}
-        </div>
-        <Footer />
+        <SmoothScrollProvider>
+          <Navbar />
+          <div className="min-h-screen">
+            {children}
+          </div>
+          <Footer />
+        </SmoothScrollProvider>
         <MesharkAI />
       </body>
     </html>

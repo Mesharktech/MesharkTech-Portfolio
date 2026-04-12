@@ -1,0 +1,8 @@
+﻿commit d7a919e69afd01a75c7d67603cbc0f95e5a95f79
+Author: Sherk Academy <sherkacademy@proton.me>
+Date:   Mon Apr 6 17:12:44 2026 +0300
+
+    chore: update cofounder image with professional generated version
+
+ public/paul-kibu.png | Bin 7785961 -> 575173 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)

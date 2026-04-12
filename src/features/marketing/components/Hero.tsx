@@ -1,10 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Shield, ArrowRight, Github, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import type { Variants } from "framer-motion";
+
+// Dynamic import — no SSR, with loading fallback
+const AuroraBackground = dynamic(() => import("@/components/3d/AuroraBackground"), {
+  ssr: false,
+  loading: () => null, // fallback gradient handles visual
+});
 
 // --- Typing animation hook ---
 function useTypingEffect(phrases: string[], speed = 80, pauseMs = 1800) {
@@ -55,7 +62,6 @@ const containerVariants: Variants = {
   visible: { transition: { staggerChildren: 0.12 } },
 };
 
-// Use string-based cubic-bezier to avoid TS strict type error
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 24 },
   visible: {
@@ -70,16 +76,19 @@ export function Hero() {
 
   return (
     <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
-      {/* Layered backgrounds */}
+      {/* Layered backgrounds — static fallback sits behind Three.js */}
       <div className="absolute inset-0 bg-mesh-gradient pointer-events-none" />
       <div className="absolute inset-0 dot-grid opacity-60 pointer-events-none" />
 
-      {/* Animated purple blob */}
+      {/* Animated purple/cyan blob — visible on mobile, fades behind particles on desktop */}
       <motion.div
         animate={{ scale: [1, 1.15, 1], opacity: [0.12, 0.2, 0.12] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-meshark-cyan rounded-full blur-[120px] pointer-events-none"
       />
+
+      {/* Three.js Fluid Aurora — renders nothing on mobile/low-end */}
+      <AuroraBackground />
 
       <motion.div
         className="z-10 text-center max-w-5xl mx-auto"
@@ -117,7 +126,6 @@ export function Hero() {
           <span>{typedText}</span>
           <span className="terminal-cursor" />
         </motion.div>
-
 
         {/* CTAs */}
         <motion.div

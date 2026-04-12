@@ -1,0 +1,6 @@
+- `[x]` Add ElevenLabs API Key to `.env.local`
+- `[x]` Create server-side TTS API route (`/api/tts/route.ts`) to securely proxy ElevenLabs requests
+- `[x]` Modify `src/app/api/chat/route.ts` to output distinct `spoken_reply` and `visual_reply` using JSON formatting
+- `[x]` Update `MesharkAI.tsx` to handle the new response object
+- `[x]` Add audio playback logic and `window.scrollBy` handling hook in `MesharkAI.tsx`
+- `[x]` Test execution logic

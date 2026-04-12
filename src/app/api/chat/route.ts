@@ -250,6 +250,28 @@ export async function POST(req: Request) {
 
     const responseMessage = completion.choices[0]?.message;
 
+    // Detect raw LLaMA tool calls leaked in content
+    if (responseMessage?.content) {
+      const rawToolMatch = responseMessage.content.match(/<function=([^>]+)>(.*?)<\/function>/is);
+      if (rawToolMatch) {
+        const [fullMatch, funcName, argsString] = rawToolMatch;
+        responseMessage.content = responseMessage.content.replace(fullMatch, "").trim();
+        
+        if (!responseMessage.tool_calls) {
+          responseMessage.tool_calls = [];
+        }
+        
+        responseMessage.tool_calls.push({
+          id: `call_${Date.now()}`,
+          type: "function",
+          function: {
+            name: funcName.trim(),
+            arguments: argsString.trim(),
+          }
+        });
+      }
+    }
+
     // ---- Tool call handling ----
     if (responseMessage?.tool_calls && responseMessage.tool_calls.length > 0) {
       const followUpMessages: any[] = [

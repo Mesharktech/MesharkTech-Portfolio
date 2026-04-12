@@ -68,20 +68,15 @@ const renderMessageContent = (content: string) => {
   });
 };
 
+const SILENT_AUDIO = "data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";
+
 /**
  * Plays TTS audio on mobile safely.
  * Mobile browsers block audio.play() unless called close to a user gesture.
- * We pre-fetch the blob synchronously in the user gesture context,
- * then hand it to an Audio element.
+ * We pre-fetch the blob, then assign it to the ALREADY UNLOCKED Audio element.
  */
 async function playTTSAudio(spokenText: string, audioRef: React.MutableRefObject<HTMLAudioElement | null>) {
   try {
-    // Stop any previous audio
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
-
     const res = await fetch("/api/tts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -95,12 +90,14 @@ async function playTTSAudio(spokenText: string, audioRef: React.MutableRefObject
 
     const blob = await res.blob();
     const audioUrl = URL.createObjectURL(blob);
-    const audio = new Audio(audioUrl);
-    audioRef.current = audio;
+    
+    if (!audioRef.current) {
+      audioRef.current = new Audio(audioUrl);
+    } else {
+      audioRef.current.src = audioUrl;
+    }
 
-    // On mobile, play() MUST be within the async chain of a user gesture.
-    // Since sendMessage is triggered by a form submit (user tap), this is valid.
-    await audio.play();
+    await audioRef.current.play();
   } catch (err) {
     console.warn("J.A.R.V.I.S Audio:", err);
   }
@@ -181,6 +178,15 @@ export function MesharkAI() {
     setMessages((prev) => [...prev, userMsg]);
     setInputValue("");
     setIsLoading(true);
+
+    // Silent Unlock for Mobile Web Audio restrictions
+    if (isMobile) {
+      if (!audioRef.current) {
+        audioRef.current = new Audio(SILENT_AUDIO);
+      }
+      audioRef.current.src = SILENT_AUDIO;
+      audioRef.current.play().catch(() => {});
+    }
 
     try {
       const res = await fetch("/api/chat", {
