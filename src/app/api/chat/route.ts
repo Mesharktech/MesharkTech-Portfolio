@@ -252,7 +252,7 @@ export async function POST(req: Request) {
 
     // Detect raw LLaMA tool calls leaked in content
     if (responseMessage?.content) {
-      const rawToolMatch = responseMessage.content.match(/<function=([^>]+)>(.*?)<\/function>/is);
+      const rawToolMatch = responseMessage.content.match(/<function=([^>]+)>([\s\S]*?)<\/function>/i);
       if (rawToolMatch) {
         const [fullMatch, funcName, argsString] = rawToolMatch;
         responseMessage.content = responseMessage.content.replace(fullMatch, "").trim();
