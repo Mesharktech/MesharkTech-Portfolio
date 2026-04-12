@@ -54,7 +54,7 @@ export function Navbar() {
               priority
               className="w-10 h-10 transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_15px_rgba(124,58,237,0.5)]"
             />
-            <span className="font-display font-bold text-2xl tracking-tight text-white mt-1 hidden sm:block">
+            <span className="font-display font-bold text-xl sm:text-2xl tracking-tight text-white mt-1">
               Meshark<span className="text-meshark-cyanLight">tech</span>
             </span>
           </Link>
