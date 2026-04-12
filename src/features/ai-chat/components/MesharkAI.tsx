@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, X, Send, Bot, RotateCcw, ChevronDown, Flame } from "lucide-react";
+import { MessageSquare, X, Send, Bot, RotateCcw, ChevronDown, Flame, Mic } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Message {
@@ -81,6 +82,9 @@ export function MesharkAI() {
   const [hasScrolled, setHasScrolled] = useState(false); // Added from diff
   const [showBubble, setShowBubble] = useState(false);
   const [bubbleText, setBubbleText] = useState("Let's build something."); // Initialized from original
+  const [isListening, setIsListening] = useState(false);
+  
+  const router = useRouter();
 
   // Feedback states
   const [showFeedback, setShowFeedback] = useState(false);
@@ -90,6 +94,7 @@ export function MesharkAI() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null); // Changed from bottomRef
   const inputRef = useRef<HTMLInputElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Periodic Attention Bubble
   useEffect(() => {
@@ -165,10 +170,45 @@ export function MesharkAI() {
         }),
       });
       const data = await res.json();
+      
+      // J.A.R.V.I.S OVERRIDE: Agentic Navigation
+      if (data.action?.type === "NAVIGATE") {
+        router.push(data.action.path);
+        // Smooth scroll to draw attention to new content
+        setTimeout(() => {
+          window.scrollBy({ top: 400, behavior: "smooth" });
+        }, 800);
+      }
+
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: data.reply ?? "Connection dropped. Try again.", timestamp: new Date() }, // Added timestamp
       ]);
+
+      // Handle J.A.R.V.I.S Audio Output
+      if (data.spokenText) {
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current = null;
+        }
+
+        fetch("/api/tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: data.spokenText }),
+        })
+          .then((res) => {
+            if (!res.ok) throw new Error("TTS Failed");
+            return res.blob();
+          })
+          .then((blob) => {
+            const audioUrl = URL.createObjectURL(blob);
+            const audio = new Audio(audioUrl);
+            audioRef.current = audio;
+            audio.play().catch(e => console.error("Audio playback prevented:", e));
+          })
+          .catch(err => console.error("J.A.R.V.I.S Voice error:", err));
+      }
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -186,7 +226,34 @@ export function MesharkAI() {
     }
   };
 
+  const toggleVoice = () => {
+    if (isListening) return;
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Your browser does not support Voice Input. Please use Chrome or Safari.");
+      return;
+    }
+    
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    
+    recognition.onstart = () => setIsListening(true);
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInputValue((prev) => prev + (prev ? " " : "") + transcript);
+    };
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = (event: any) => {
+      console.error("Speech API Error:", event);
+      setIsListening(false);
+    };
+    
+    recognition.start();
+  };
+
   const resetChat = () => {
+    if (audioRef.current) audioRef.current.pause();
     setMessages([{ ...WELCOME_MESSAGE, timestamp: new Date() }]); // Updated to include timestamp
     setFeedbackSubmitted(false); // Reset feedback state
     setFeedbackRating(null);
@@ -199,6 +266,7 @@ export function MesharkAI() {
   };
 
   const forceClose = () => {
+    if (audioRef.current) audioRef.current.pause();
     setIsOpen(false);
     setShowFeedback(false);
     setFeedbackSubmitted(false);
@@ -459,12 +527,23 @@ export function MesharkAI() {
                   {!isMinimized && (
                     <div className="px-4 pb-4 pt-2 shrink-0 border-t border-white/8 bg-white/[0.02]">
                       <form onSubmit={sendMessage} className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 focus-within:border-meshark-cyan/60 transition-colors">
+                        <button
+                          type="button"
+                          onClick={toggleVoice}
+                          className={cn(
+                            "w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all",
+                            isListening ? "bg-red-500/20 text-red-400 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.3)]" : "bg-transparent text-meshark-silver/60 hover:text-white"
+                          )}
+                          title="Voice Input (J.A.R.V.I.S)"
+                        >
+                          <Mic className="w-4 h-4" />
+                        </button>
                         <input
                           ref={inputRef}
                           value={inputValue}
                           onChange={(e) => setInputValue(e.target.value)}
                           onKeyDown={handleKeyDown}
-                          placeholder="Ask me anything..."
+                          placeholder={isListening ? "Listening..." : "Ask me anything..."}
                           disabled={isLoading}
                           className="flex-1 bg-transparent text-sm text-white placeholder:text-meshark-silver/50 outline-none font-mono disabled:opacity-50"
                         />
