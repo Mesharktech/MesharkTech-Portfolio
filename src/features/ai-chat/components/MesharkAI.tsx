@@ -292,17 +292,18 @@ export function MesharkAI() {
   // Desktop: bottom-right floating panel
   // Mobile:  full-screen overlay (fixed inset-0, but below the navbar)
   const windowClass = isMobile
-    ? "fixed inset-x-0 bottom-0 top-16 z-50"
+    ? "fixed inset-x-2 bottom-2 top-[20vh] z-[100] max-h-[80vh]"
     : "fixed bottom-6 right-6 z-50 w-[370px] max-w-[calc(100vw-2rem)]";
 
   const cardStyle = isMobile
     ? {
-        background: "linear-gradient(135deg, rgba(15,23,42,0.97) 0%, rgba(2,6,23,0.99) 100%)",
+        background: "linear-gradient(135deg, rgba(15,23,42,0.90) 0%, rgba(2,6,23,0.95) 100%)",
         backdropFilter: "blur(24px)",
         WebkitBackdropFilter: "blur(24px)",
+        boxShadow: "0 -10px 40px -10px rgba(0,0,0,0.8), 0 0 0 1px rgba(122,34,225,0.15)",
         height: "100%",
         maxHeight: "100%",
-        borderRadius: "1.5rem 1.5rem 0 0",
+        borderRadius: "1.5rem",
         display: "flex",
         flexDirection: "column" as const,
       }
