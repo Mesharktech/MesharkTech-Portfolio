@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     await Promise.all([
       resend.emails.send({
         from: "Mesharktech Contact Form <onboarding@resend.dev>",
-        to: "contact@mesharktech.com",
+        to: "contact@mesharktech.co.ke",
         replyTo: email,
         subject: `[Mesharktech] New inquiry from ${name}`,
         html: `
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
               <p style="white-space: pre-wrap; margin: 0;">${message}</p>
             </div>
             <hr style="border: 1px solid #181d28; margin: 16px 0;" />
-            <p style="font-size: 12px; color: #4a5568;">Sent from mesharktech.com contact form</p>
+            <p style="font-size: 12px; color: #4a5568;">Sent from mesharktech.co.ke contact form</p>
           </div>
         `,
       }),

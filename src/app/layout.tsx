@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   title: "Mesharktech | Secure Architecture. Flawless Execution.",
   description:
     "Meshark — Full-Stack Developer & Cybersecurity Specialist based in Nairobi. Building high-performance, resilient digital infrastructure that scales. Founder of Mesharktech & Quick Dynasty.",
-  metadataBase: new URL("https://mesharktech.com"),
+  metadataBase: new URL("https://mesharktech.co.ke"),
   keywords: [
     "Mesharktech",
     "Full-Stack Developer",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
       "Meshark — Full-Stack Developer & Cybersecurity Specialist. Building systems that command respect.",
     type: "website",
     locale: "en_US",
-    url: "https://mesharktech.com",
+    url: "https://mesharktech.co.ke",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Mesharktech — Secure Architecture. Flawless Execution." }],
   },
   twitter: {
@@ -98,7 +98,7 @@ export default function RootLayout({
               "@type": "Person",
               name: "Meshark",
               jobTitle: "Full-Stack Developer & Cybersecurity Specialist",
-              url: "https://mesharktech.com",
+              url: "https://mesharktech.co.ke",
               sameAs: [
                 "https://github.com/Mesharktech",
                 "https://linkedin.com/in/meshark",
@@ -115,8 +115,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Mesharktech",
-              url: "https://mesharktech.com",
-              logo: "https://mesharktech.com/logo-icon.svg",
+              url: "https://mesharktech.co.ke",
+              logo: "https://mesharktech.co.ke/logo-icon.svg",
               description: "Elite digital engineering firm — secure architecture, flawless execution.",
               foundingDate: "2020",
               founder: { "@type": "Person", name: "Meshark" },
@@ -127,7 +127,7 @@ export default function RootLayout({
               },
               contactPoint: {
                 "@type": "ContactPoint",
-                email: "contact@mesharktech.com",
+                email: "contact@mesharktech.co.ke",
                 contactType: "customer service",
               },
             }),
@@ -141,7 +141,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               name: "Mesharktech",
-              url: "https://mesharktech.com",
+              url: "https://mesharktech.co.ke",
             }),
           }}
         />

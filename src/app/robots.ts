@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://mesharktech.com/sitemap.xml',
+    sitemap: 'https://mesharktech.co.ke/sitemap.xml',
   };
 }

@@ -161,7 +161,7 @@ export function BentoGrid() {
             <p className="text-meshark-silver text-sm mb-6">{">"} initiate_connection()</p>
             
             <div className="flex gap-4">
-              <a href="mailto:contact@mesharktech.com" className="px-4 py-2 bg-meshark-slate/50 hover:bg-meshark-slate border border-meshark-slateDark hover:border-meshark-cyan transition-colors rounded text-sm text-white flex items-center gap-2">
+              <a href="mailto:contact@mesharktech.co.ke" className="px-4 py-2 bg-meshark-slate/50 hover:bg-meshark-slate border border-meshark-slateDark hover:border-meshark-cyan transition-colors rounded text-sm text-white flex items-center gap-2">
                 <Mail className="w-4 h-4" /> root@meshark.tech
               </a>
               <a href="https://github.com/Mesharktech" target="_blank" rel="noreferrer" className="px-4 py-2 bg-meshark-slate/50 hover:bg-meshark-slate border border-meshark-slateDark hover:border-meshark-cyan transition-colors rounded text-sm text-white flex items-center gap-2">

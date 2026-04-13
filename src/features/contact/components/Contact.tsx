@@ -161,10 +161,10 @@ export function Contact() {
             <div>
               <p className="text-xs text-meshark-silver mb-1">Direct Line</p>
               <a
-                href="mailto:contact@mesharktech.com"
+                href="mailto:contact@mesharktech.co.ke"
                 className="text-white font-medium hover:text-meshark-cyanLight transition-colors"
               >
-                contact@mesharktech.com
+                contact@mesharktech.co.ke
               </a>
             </div>
           </div>

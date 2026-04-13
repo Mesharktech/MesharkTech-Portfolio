@@ -51,7 +51,7 @@ export async function POST(req: Request) {
 
     await resend.emails.send({
       from: "Meshark AI Feedback <onboarding@resend.dev>",
-      to: "contact@mesharktech.com",
+      to: "contact@mesharktech.co.ke",
       subject: `[Meshark AI] Feedback: ${rating}/5 stars`,
       html: `
         <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background: #0b0f14; color: #e2e8f0; border-radius: 12px;">
