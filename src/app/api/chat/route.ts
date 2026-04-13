@@ -187,16 +187,6 @@ const navigateTool = {
 };
 
 // ---------------------------------------------------------------------------
-// Hardcoded navigation messages — never trust LLM content for these
-// ---------------------------------------------------------------------------
-const NAV_MESSAGES: Record<string, { reply: string; spoken: string }> = {
-  "/projects": { reply: "Here's a look at what I've shipped — real production work.", spoken: "Let me show you what I've built." },
-  "/services": { reply: "Here's what I offer. Pick the tier that fits your project.", spoken: "I've pulled up my capabilities for you." },
-  "/about":    { reply: "Here's a bit about me and what drives my work.", spoken: "Let me show you who I am." },
-  "/":         { reply: "Taking you back to home.", spoken: "Going home." },
-};
-
-// ---------------------------------------------------------------------------
 // POST handler
 // ---------------------------------------------------------------------------
 export async function POST(req: Request) {
@@ -280,6 +270,8 @@ export async function POST(req: Request) {
         ...(messages as any[]),
         responseMessage,
       ];
+      
+      let triggerAction: any = null;
 
       for (const toolCall of responseMessage.tool_calls) {
 
@@ -287,8 +279,15 @@ export async function POST(req: Request) {
         if (toolCall.function.name === "navigate_website") {
           let args: { path: string };
           try { args = JSON.parse(toolCall.function.arguments); } catch { continue; }
-          const nav = NAV_MESSAGES[args.path] ?? { reply: `Taking you to ${args.path}.`, spoken: "Navigating now." };
-          return NextResponse.json({ reply: nav.reply, spokenText: nav.spoken, action: { type: "NAVIGATE", path: args.path } });
+          
+          followUpMessages.push({
+            tool_call_id: toolCall.id, 
+            role: "tool", 
+            name: "navigate_website",
+            content: `Navigation triggered successfully to ${args.path}. Acknowledge this to the user naturally and keep moving the conversation forward.`,
+          });
+          
+          triggerAction = { type: "NAVIGATE", path: args.path };
         }
 
         // BOOK CONSULTATION
@@ -356,7 +355,11 @@ export async function POST(req: Request) {
       });
 
       const finalText = finalCompletion.choices[0]?.message?.content ?? "Connection dropped. Try again.";
-      return NextResponse.json({ reply: finalText, spokenText: deriveSpokenText(finalText) });
+      return NextResponse.json({ 
+        reply: finalText, 
+        spokenText: deriveSpokenText(finalText), 
+        ...(triggerAction && { action: triggerAction }) 
+      });
     }
 
     // ---- Plain text response ----
