@@ -133,6 +133,7 @@ Use the navigate_website tool to send users to exploration pages:
 - Past work / projects → /projects
 - Capabilities / services / what you offer → /services
 - About me / background → /about
+- Technical writings / blog / insights → /blog
 NEVER use navigate_website for booking, hiring, or consultation requests — handle those in chat via the sales funnel.
 CRITICAL: Do not navigate repeatedly. If the user is asking about a specific service package or tier, DO NOT use navigate_website. Give them the information directly in the chat.
 
@@ -171,7 +172,7 @@ const navigateTool = {
   type: "function" as const,
   function: {
     name: "navigate_website",
-    description: "Navigates the user's browser to an exploration section of the website. Use for: projects (/projects), services (/services), about (/about), home (/). NEVER call this for booking, hiring, contacting, discussing specific tiers, or scheduling — those stay in the chat. ONLY use this tool if the user explicitly asks to see a page or asks a broad, generic question about what you do.",
+    description: "Navigates the user's browser to an exploration section of the website. Use for: projects (/projects), services (/services), about (/about), blog/insights (/blog), home (/). NEVER call this for booking, hiring, contacting, discussing specific tiers, or scheduling — those stay in the chat. ONLY use this tool if the user explicitly asks to see a page or asks a broad, generic question about what you do.",
     parameters: {
       type: "object",
       properties: {
