@@ -82,7 +82,7 @@ Make the slug URL-safe. After the frontmatter '---', write the article.`
     const gitRes = await fetch(`https://api.github.com/repos/${repoDetails}/contents/${path}`, {
       method: "PUT",
       headers: {
-        Authorization: `token ${githubToken}`,
+        Authorization: `Bearer ${githubToken}`,
         Accept: "application/vnd.github.v3+json",
         "Content-Type": "application/json",
       },
