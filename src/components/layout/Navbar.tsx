@@ -48,7 +48,7 @@ export function Navbar() {
             className="flex items-center gap-3 group"
           >
             <Image 
-              src="/logo-icon.svg" 
+              src="/meshark-logo.png" 
               alt="Mesharktech Icon" 
               width={40}
               height={40}

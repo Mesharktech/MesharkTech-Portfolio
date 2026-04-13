@@ -116,7 +116,7 @@ export default function RootLayout({
               "@type": "Organization",
               name: "Mesharktech",
               url: "https://mesharktech.co.ke",
-              logo: "https://mesharktech.co.ke/logo-icon.svg",
+              logo: "https://mesharktech.co.ke/meshark-logo.png",
               description: "Elite digital engineering firm — secure architecture, flawless execution.",
               foundingDate: "2020",
               founder: { "@type": "Person", name: "Meshark" },
