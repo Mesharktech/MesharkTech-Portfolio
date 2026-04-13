@@ -14,7 +14,7 @@ export default function BlogIndex() {
     <div className="min-h-screen bg-meshark-slateDark pt-32 pb-24 px-6 md:px-12 wrapper">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-display font-black text-white mb-6">
-          Engineering <span className="flame-font-cyan glow-cyan">Insights</span>
+          Engineering <span className="flaming-text-cyan">Insights</span>
         </h1>
         <p className="text-meshark-silver text-lg mb-16 max-w-2xl font-mono border-l-2 border-meshark-cyanLight pl-4">
           Tactical playbooks, security audits, and deep-dives on shipping scalable software.
