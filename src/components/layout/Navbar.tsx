@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/services", label: "Capabilities" },
   { href: "/projects", label: "Portfolio" },
   { href: "/about", label: "About" },
+  { href: "/blog", label: "Insights" },
 ];
 
 export function Navbar() {
