@@ -178,7 +178,7 @@ const navigateTool = {
       properties: {
         path: {
           type: "string",
-          enum: ["/", "/about", "/projects", "/services"],
+          enum: ["/", "/about", "/projects", "/services", "/blog"],
           description: "The path to navigate to.",
         },
       },
