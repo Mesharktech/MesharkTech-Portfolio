@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { MesharkAI } from "@/features/ai-chat/components/MesharkAI";
 import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 // Primary display font — clean, professional, internationally recognized
 const inter = Inter({
@@ -164,6 +165,9 @@ export default function RootLayout({
         </SmoothScrollProvider>
         <MesharkAI />
       </body>
+      {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+      )}
     </html>
   );
 }
