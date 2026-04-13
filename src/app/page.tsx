@@ -6,6 +6,12 @@ import { FeaturedProjects } from "@/features/marketing/components/FeaturedProjec
 import { Testimonials } from "@/features/marketing/components/Testimonials";
 import { CTAStrip } from "@/features/marketing/components/CTAStrip";
 
+/**
+ * Main Home Portfolio Page
+ * Assembles the core features and components into the landing experience.
+ *
+ * @returns {JSX.Element} The rendered homepage component.
+ */
 export default function Home() {
   return (
     <main id="main-content" className="bg-meshark-slateDark overflow-x-hidden">

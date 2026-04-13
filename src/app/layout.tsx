@@ -66,6 +66,14 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Root Application Layout
+ * Defines global fonts, structured semantic data (SEO), external connections,
+ * and sets up the primary application shell including navigation and the AI Concierge.
+ *
+ * @param {Readonly<{children: React.ReactNode}>} props - Props containing children React nodes.
+ * @returns {JSX.Element} The global HTML document layout wrapper.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -11,6 +11,12 @@ const PILLARS = [
   { id: "seo-blog", label: "SEO Tech Blog", desc: "Long-form technical article outlines" }
 ];
 
+/**
+ * Marketing Dashboard Component
+ * Provides a human-in-the-loop UI to generate and post marketing content.
+ *
+ * @returns {JSX.Element} The rendered Marketing Dashboard.
+ */
 export default function MarketingDashboard() {
   const [secret, setSecret] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -89,7 +95,7 @@ export default function MarketingDashboard() {
             type="password"
             value={secret}
             onChange={(e) => setSecret(e.target.value)}
-            placeholder="meshark-dev-secret..."
+            placeholder="Enter your CRON_SECRET..."
             className="w-full bg-meshark-slateDark border border-meshark-slate focus:border-meshark-cyan rounded-xl px-4 py-3 text-white mb-4 outline-none transition-colors text-center font-mono"
             required
           />

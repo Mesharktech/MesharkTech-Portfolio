@@ -4,12 +4,19 @@ import { generateContentSchema } from "@/lib/validations/marketing";
 
 export const runtime = "edge";
 
+/**
+ * Handles automated and manual content generation requests.
+ * Enforces authorization via the CRON_SECRET environment variable.
+ *
+ * @param {Request} req - The incoming HTTP request.
+ * @returns {Promise<NextResponse>} The JSON response containing generated content or error.
+ */
 export async function POST(req: Request) {
   try {
-    // Basic internal security check (to prevent public abuse before we wire cron)
+    // Basic internal security check
     // We expect a secret key in headers to trigger the job
     const authHeader = req.headers.get("authorization");
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET || "meshark-dev-secret"}`) {
+    if (!process.env.CRON_SECRET || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
